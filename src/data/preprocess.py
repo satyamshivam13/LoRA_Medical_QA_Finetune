@@ -20,18 +20,24 @@ def build_tokenize_fn(tokenizer, cfg: DataConfig):
         question = example["question"]
         answer = example["answer"]
 
-        # Prompt only (up to and including the assistant generation prefix).
-        prompt_ids = tokenizer.apply_chat_template(
+        # Render to strings first, then tokenize ourselves. This guarantees plain
+        # python int lists (Arrow-serializable) across transformers/tokenizers
+        # versions — some newer versions return a tokenizers.Encoding from
+        # apply_chat_template(tokenize=True), which datasets.map cannot write.
+        prompt_text = tokenizer.apply_chat_template(
             build_messages(question),
-            tokenize=True,
+            tokenize=False,
             add_generation_prompt=True,
         )
-        # Full sequence including the answer.
-        full_ids = tokenizer.apply_chat_template(
+        full_text = tokenizer.apply_chat_template(
             build_messages(question, answer),
-            tokenize=True,
+            tokenize=False,
             add_generation_prompt=False,
         )
+        # add_special_tokens=False: the chat template already includes BOS/special
+        # tokens, so re-adding them would duplicate the BOS.
+        prompt_ids = tokenizer(prompt_text, add_special_tokens=False).input_ids
+        full_ids = tokenizer(full_text, add_special_tokens=False).input_ids
 
         full_ids = full_ids[:max_len]
         labels = list(full_ids)

@@ -12,7 +12,8 @@ from src.utils.config import Config
 def answer(model, tokenizer, question: str, max_new_tokens: int = 256) -> str:
     device = next(model.parameters()).device
     prompt = render_prompt(tokenizer, question)
-    inputs = tokenizer(prompt, return_tensors="pt").to(device)
+    # add_special_tokens=False — render_prompt already includes BOS via the template.
+    inputs = tokenizer(prompt, return_tensors="pt", add_special_tokens=False).to(device)
     out = model.generate(
         **inputs,
         max_new_tokens=max_new_tokens,

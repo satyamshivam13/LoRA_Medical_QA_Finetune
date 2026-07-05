@@ -20,7 +20,8 @@ def generate_answers(model, tokenizer, questions: List[str] = None, max_new_toke
     results = []
     for q in questions:
         prompt = render_prompt(tokenizer, q)
-        inputs = tokenizer(prompt, return_tensors="pt").to(device)
+        # add_special_tokens=False — render_prompt already includes BOS via the template.
+        inputs = tokenizer(prompt, return_tensors="pt", add_special_tokens=False).to(device)
         out = model.generate(
             **inputs,
             max_new_tokens=max_new_tokens,
