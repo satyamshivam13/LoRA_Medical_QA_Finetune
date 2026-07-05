@@ -35,6 +35,10 @@ def train(cfg: Config) -> str:
     model = load_model(cfg.model, for_training=True)
     if cfg.train.gradient_checkpointing:
         model.config.use_cache = False  # incompatible with grad checkpointing
+        # Required so gradients flow through checkpointed layers into the LoRA
+        # adapters when the base is frozen. (In the 4-bit path this is handled by
+        # prepare_model_for_kbit_training; in the fp16 path we must do it here.)
+        model.enable_input_require_grads()
     model = apply_lora(model, cfg.lora)
 
     # Data
@@ -60,6 +64,7 @@ def train(cfg: Config) -> str:
         fp16=cfg.train.fp16,
         bf16=cfg.train.bf16,
         gradient_checkpointing=cfg.train.gradient_checkpointing,
+        gradient_checkpointing_kwargs={"use_reentrant": False},
         optim=cfg.train.optim,
         logging_steps=cfg.train.logging_steps,
         eval_strategy=cfg.train.eval_strategy,
