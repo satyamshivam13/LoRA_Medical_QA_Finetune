@@ -25,17 +25,27 @@ baseline-vs-fine-tuned comparison. Everything is config-driven and re-runnable f
 
 ## Results
 
-> Numbers are produced by the shipped scripts and are fully reproducible. Run the pipeline and
-> `results/comparison.md` + the plots below are generated for you. A 1B model gives **modest but
-> real** gains — this project does not overstate them.
+Measured on the held-out MedQuAD test split (691 examples, 119,155 supervised tokens).
+Both rows come from the shipped `scripts/` and are fully reproducible.
 
-| Metric | Baseline | Fine-tuned | Change |
+| Metric | Baseline (base model) | Fine-tuned (LoRA) | Change |
 |---|---|---|---|
-| Eval loss | _run to fill_ | _run to fill_ | _run to fill_ |
-| Perplexity | _run to fill_ | _run to fill_ | _run to fill_ |
+| Eval loss | 2.2797 | **1.0795** | **−52.6%** |
+| Perplexity | 9.774 | **2.943** | **−69.9%** |
 
-Generated artifacts: `results/loss_curve.png`, `results/lr_schedule.png`,
-`results/before_after.png`, `results/baseline_samples.md`, `results/finetuned_samples.md`.
+Trained ~11M LoRA parameters (**under 1%** of the 1.2B-param model) for 2 epochs on a single
+Kaggle T4 (~1h45m); final training loss **1.168**.
+
+> **Honest read:** the ~70% perplexity drop is real, but much of it reflects the model adapting
+> to MedQuAD's answer *style and format* — not the 1B model acquiring clinical expertise. That
+> distinction is exactly what fine-tuning does, and the project states it plainly rather than
+> overclaiming. See `results/comparison.md` for side-by-side sample outputs.
+
+![Before vs after](results/before_after.png)
+![Training loss](results/loss_curve.png)
+
+Artifacts: `results/comparison.md`, `results/before_after.png`, `results/loss_curve.png`,
+`results/lr_schedule.png`, `results/baseline_samples.md`, `results/finetuned_samples.md`.
 
 ## Architecture
 
