@@ -19,6 +19,9 @@
 4. Clone the repo (or upload it as a dataset) and install:
    ```bash
    pip install -q -r requirements.txt
+   pip uninstall -y torchao   # Kaggle preinstalls torchao 0.10.0, which current
+                              # peft's LoRA dispatcher rejects (needs >0.16.0). We
+                              # don't use torchao — removing it lets LoRA load cleanly.
    ```
 5. Verify the environment:
    ```bash
