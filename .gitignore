@@ -17,6 +17,10 @@ datasets/*
 !datasets/.gitkeep
 logs/*
 !logs/.gitkeep
+# Keep the small result/proof logs (raw eval numbers + metrics for plot regeneration).
+!logs/metrics.jsonl
+!logs/baseline_eval.json
+!logs/finetuned_eval.json
 hf_cache/
 wandb/
 

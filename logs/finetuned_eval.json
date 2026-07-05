@@ -1,0 +1,7 @@
+{
+  "model": "meta-llama/Llama-3.2-1B-Instruct",
+  "stage": "finetuned",
+  "eval_loss": 1.0795,
+  "perplexity": 2.943,
+  "tokens": 119155
+}
