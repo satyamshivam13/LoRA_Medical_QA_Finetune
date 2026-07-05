@@ -1,0 +1,34 @@
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+
+# --- Secrets ---
+*.token
+hf_token.txt
+.env.local
+
+# --- Heavy / generated artifacts (do NOT commit) ---
+outputs/
+datasets/*
+!datasets/.gitkeep
+logs/*
+!logs/.gitkeep
+hf_cache/
+wandb/
+
+# Large merged models
+adapters/*/merged_model/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+
+# --- Testing ---
+.pytest_cache/
+
+# --- OS ---
+.DS_Store
+Thumbs.db

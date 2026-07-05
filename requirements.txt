@@ -1,0 +1,22 @@
+# Core ML stack — versions known to work together on Kaggle T4 (CUDA 12.x).
+# If Kaggle already ships a newer torch, keep theirs and install the rest.
+torch>=2.2.0
+transformers>=4.44.0
+peft>=0.12.0
+accelerate>=0.33.0
+datasets>=2.20.0
+trl>=0.9.6                # optional (SFTTrainer path); core pipeline uses transformers.Trainer
+bitsandbytes>=0.43.0     # QLoRA 4-bit fallback
+
+# Evaluation
+evaluate>=0.4.2
+rouge_score>=0.1.2
+scikit-learn>=1.3.0
+
+# Utilities
+pyyaml>=6.0
+matplotlib>=3.7.0
+huggingface_hub>=0.24.0
+
+# Dev / testing
+pytest>=8.0.0
