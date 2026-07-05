@@ -1,0 +1,20 @@
+# Dataset configuration.
+dataset_id: "keivalya/MedQuad-MedicalQnADataset"
+question_field: "Question"          # remapped automatically if columns differ
+answer_field: "Answer"
+
+max_seq_len: 512                    # covers ~95th percentile of tokenized examples
+max_answer_chars: 2000              # drop/trim encyclopedic answers beyond this
+min_answer_chars: 20                # drop near-empty answers
+
+# Split ratios (must sum to 1.0). Fixed seed → reproducible splits.
+train_ratio: 0.90
+val_ratio: 0.05
+test_ratio: 0.05
+seed: 42
+
+# Optional cap for fast smoke runs / free-tier time limits (null = use all).
+max_samples: null
+
+# Where processed splits are cached.
+processed_dir: "datasets/processed"

@@ -1,0 +1,17 @@
+# LoRA adapter configuration. Every value is justified in docs/hyperparameters.md.
+r: 16                     # rank: capacity to adapt without overfitting ~16k samples
+lora_alpha: 32            # scaling alpha/r = 2.0 → stable effective learning rate
+lora_dropout: 0.05        # light regularization for a small dataset
+bias: "none"              # do not train biases (standard, cleaner merge)
+task_type: "CAUSAL_LM"    # decoder-only next-token LM
+use_rslora: false         # rank-stabilized LoRA; helpful at higher r, off by default
+
+# Adapt attention AND MLP projections — materially better domain adaptation on Llama.
+target_modules:
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+  - gate_proj
+  - up_proj
+  - down_proj

@@ -1,0 +1,32 @@
+# Training configuration. See docs/hyperparameters.md for the reasoning behind each value.
+output_dir: "outputs/llama32-1b-medqa-lora"
+adapter_dir: "adapters/llama32-1b-medqa-lora"   # final small adapter (committable)
+
+num_train_epochs: 2                 # small dataset overfits fast; 2 balances learn vs memorize
+per_device_train_batch_size: 8      # fits T4 at seq 512 (use 4 if use_4bit)
+per_device_eval_batch_size: 8
+gradient_accumulation_steps: 4      # effective batch = 8 * 4 = 32
+
+learning_rate: 0.0002               # 2e-4: robust LoRA LR (only adapters train)
+lr_scheduler_type: "cosine"
+warmup_ratio: 0.03
+weight_decay: 0.0                   # LoRA rarely benefits; dropout handles regularization
+max_grad_norm: 1.0
+
+# Precision — T4 supports fp16 only. Trainer picks fp16; set bf16 true on Ampere+.
+fp16: true
+bf16: false
+gradient_checkpointing: true        # trade compute for memory to afford the batch size
+optim: "adamw_torch"                # use "paged_adamw_8bit" when use_4bit is true
+
+logging_steps: 10                   # feeds logs/metrics.jsonl and the plots
+eval_strategy: "epoch"
+save_strategy: "epoch"
+save_total_limit: 2
+load_best_model_at_end: true
+metric_for_best_model: "eval_loss"
+greater_is_better: false
+early_stopping_patience: 2          # stop if eval loss stalls 2 evals
+
+seed: 42
+report_to: "none"                   # set "wandb" if you want experiment tracking

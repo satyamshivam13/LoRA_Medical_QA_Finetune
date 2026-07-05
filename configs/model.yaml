@@ -1,0 +1,14 @@
+# Base model configuration.
+# Default is the gated Llama 3.2 1B Instruct. If you cannot accept Meta's license,
+# switch base_model_id to the non-gated fallback below (no other changes needed).
+base_model_id: "meta-llama/Llama-3.2-1B-Instruct"
+fallback_model_id: "Qwen/Qwen2.5-1.5B-Instruct"   # non-gated, drop-in alternative
+
+trust_remote_code: false
+dtype: "float16"          # T4 has no bf16; use float16. Set "bfloat16" on Ampere+.
+
+# --- QLoRA 4-bit fallback (for <8GB VRAM). Leave use_4bit false for standard LoRA on T4. ---
+use_4bit: false
+bnb_4bit_quant_type: "nf4"
+bnb_4bit_use_double_quant: true
+bnb_4bit_compute_dtype: "float16"
