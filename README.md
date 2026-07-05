@@ -1,5 +1,6 @@
 # LoRA Fine-Tuning: Llama 3.2 1B for Medical Q/A
 
+[![CI](https://github.com/satyamshivam13/LoRA_Medical_QA_Finetune/actions/workflows/ci.yml/badge.svg)](https://github.com/satyamshivam13/LoRA_Medical_QA_Finetune/actions/workflows/ci.yml)
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?logo=pytorch&logoColor=white)
 ![Transformers](https://img.shields.io/badge/%F0%9F%A4%97%20Transformers-yellow)
